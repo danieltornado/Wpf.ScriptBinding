@@ -1,0 +1,62 @@
+﻿<Window
+    x:Class="ScriptBinding.Example.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:example="clr-namespace:ScriptBinding.Example"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:scriptBinding="clr-namespace:ScriptBinding.Tools;assembly=ScriptBinding"
+    Title="Script binding sample"
+    Width="800"
+    Height="450"
+    d:DataContext="{d:DesignInstance example:MainViewModel}"
+    DataContext="{Binding Source={x:Static example:MainViewModel.Instance}}"
+    mc:Ignorable="d">
+
+    <TabControl>
+        <TabItem Header="Property binding">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{scriptBinding:ScriptBinding 'b(Text)'}" />
+                <TextBlock Text="{scriptBinding:ScriptBinding 'b(Number).ToString()'}" />
+                <CheckBox IsChecked="{scriptBinding:ScriptBinding 'b(Mark)'}" IsEnabled="False">Mark</CheckBox>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem Header="Element binding">
+            <Grid x:Name="MainGrid">
+                <Canvas>
+                    <Rectangle
+                        Canvas.Left="{scriptBinding:ScriptBinding 'b(ActualWidth, MainGrid) / 4'}"
+                        Canvas.Top="{scriptBinding:ScriptBinding 'b(ActualHeight, MainGrid) / 4'}"
+                        Width="{scriptBinding:ScriptBinding 'b(ActualWidth, MainGrid) / 2'}"
+                        Height="{scriptBinding:ScriptBinding 'b(ActualHeight, MainGrid) / 2'}"
+                        Fill="Black" />
+                </Canvas>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Binding">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <CheckBox x:Name="TextInputVisibility" Grid.Row="0">Text input is Visible</CheckBox>
+                <TextBox
+                    Grid.Row="1"
+                    Text="{Binding TwoWayBindingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{scriptBinding:ScriptBinding 'if(b(IsChecked, TextInputVisibility) == true) then(System.Windows.Visibility.Visible) else(System.Windows.Visibility.Collapsed)'}" />
+                <TextBlock Grid.Row="2">
+                    <TextBlock.Text>
+                        <scriptBinding:ScriptBinding Expression="b(0) + '   ' + b(1)">
+                            <Binding Path="Text" />
+                            <Binding Path="TwoWayBindingText" />
+                        </scriptBinding:ScriptBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>

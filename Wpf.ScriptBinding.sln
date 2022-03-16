@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptBinding", "ScriptBind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptBinding.Tests", "ScriptBinding.Tests\ScriptBinding.Tests.csproj", "{E33E529E-4C42-41D2-B4B5-081E398A0278}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptBinding.Debugger", "ScriptBinding.Debugger\ScriptBinding.Debugger.csproj", "{B5FA9D8F-B3F8-4665-B49B-74253FB97DC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptBinding.Example", "ScriptBinding.Example\ScriptBinding.Example.csproj", "{17CF61A2-445E-4F3D-B124-27E4417E15BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E33E529E-4C42-41D2-B4B5-081E398A0278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33E529E-4C42-41D2-B4B5-081E398A0278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33E529E-4C42-41D2-B4B5-081E398A0278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5FA9D8F-B3F8-4665-B49B-74253FB97DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5FA9D8F-B3F8-4665-B49B-74253FB97DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5FA9D8F-B3F8-4665-B49B-74253FB97DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5FA9D8F-B3F8-4665-B49B-74253FB97DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17CF61A2-445E-4F3D-B124-27E4417E15BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17CF61A2-445E-4F3D-B124-27E4417E15BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17CF61A2-445E-4F3D-B124-27E4417E15BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17CF61A2-445E-4F3D-B124-27E4417E15BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
