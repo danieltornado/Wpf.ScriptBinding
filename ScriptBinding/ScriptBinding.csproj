@@ -45,13 +45,81 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internals\BindingProvider.cs" />
+    <Compile Include="Internals\Common\CommonHelper.cs" />
+    <Compile Include="Internals\Compiler\Compiler.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Binary.cs" />
+    <Compile Include="Internals\Compiler\Expressions\BinaryType.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallBinding.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallDynamicMethod.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallDynamicProperty.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallElementBinding.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallEnum.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallMethod.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallProperty.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallPropertyBinding.cs" />
+    <Compile Include="Internals\Compiler\Expressions\CallType.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Conditional.cs" />
+    <Compile Include="Internals\Compiler\Expressions\ConstantBoolean.cs" />
+    <Compile Include="Internals\Compiler\Expressions\ConstantNull.cs" />
+    <Compile Include="Internals\Compiler\Expressions\ConstantNumber.cs" />
+    <Compile Include="Internals\Compiler\Expressions\ConstantString.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Expr.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Failed.cs" />
+    <Compile Include="Internals\Compiler\Expressions\IExprVisitor.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Parens.cs" />
+    <Compile Include="Internals\Compiler\Expressions\Unary.cs" />
+    <Compile Include="Internals\Compiler\Expressions\UnaryType.cs" />
+    <Compile Include="Internals\Compiler\IBindingGenerator.cs" />
+    <Compile Include="Internals\Executor\ErrorListeners\DebugExecutingErrorListener.cs" />
+    <Compile Include="Internals\Executor\ErrorListeners\IExecutingErrorListener.cs" />
+    <Compile Include="Internals\Executor\Executor.cs" />
+    <Compile Include="Internals\Executor\IBindingProvider.cs" />
     <Compile Include="Internals\GeneratedBinding.cs" />
-    <Compile Include="Internals\ExpressionBuilder.cs" />
     <Compile Include="Internals\ExpressionHolder.cs" />
+    <Compile Include="Internals\Parser\ErrorListeners\DebugParserErrorListener.cs" />
+    <Compile Include="Internals\Parser\ErrorListeners\IScriptErrorListener.cs" />
+    <Compile Include="Internals\Parser\ErrorListeners\LexerErrorListenerAdapter.cs" />
+    <Compile Include="Internals\Parser\ErrorListeners\ParserErrorListenerAdapter.cs" />
+    <Compile Include="Internals\Parser\Nodes\BinaryNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\BinaryOperation.cs" />
+    <Compile Include="Internals\Parser\Nodes\ConditionalNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\IdentifierNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\INodeVisitor.cs" />
+    <Compile Include="Internals\Parser\Nodes\IntegerModifiers.cs" />
+    <Compile Include="Internals\Parser\Nodes\IntegerNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\InvokeNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\MemberAccessNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\Node.cs" />
+    <Compile Include="Internals\Parser\Nodes\ParensNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\RealModifiers.cs" />
+    <Compile Include="Internals\Parser\Nodes\RealNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\StringNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\UnaryNode.cs" />
+    <Compile Include="Internals\Parser\Nodes\UnaryOperation.cs" />
+    <Compile Include="Internals\Parser\Parser.cs" />
     <Compile Include="ScriptBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internals\ScriptConverter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Antlr4 Include="Internals\Parser\Script.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>ScriptBinding.Internals.Parser.obj.Debug</CustomToolNamespace>
+    </Antlr4>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Antlr4.CodeGenerator">
+      <Version>4.6.6</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Antlr4.Runtime">
+      <Version>4.6.6</Version>
+    </PackageReference>
+    <PackageReference Include="JetBrains.Annotations">
+      <Version>2021.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

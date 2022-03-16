@@ -1,14 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
+using ScriptBinding.Internals.Compiler.Expressions;
+using ScriptBinding.Internals.Executor.ErrorListeners;
 
 namespace ScriptBinding.Internals
 {
     class ScriptConverter : IMultiValueConverter
     {
-        public void SetExpression(ExpressionHolder holder)
+        private Expr _expression;
+        private readonly Executor.Executor _executor;
+        private readonly BindingProvider _bindingProvider;
+
+        public ScriptConverter(IExecutingErrorListener errorListener)
         {
-            throw new NotImplementedException();
+            var bindingProvider = new BindingProvider();
+
+            _executor = new Executor.Executor(errorListener, bindingProvider);
+            _bindingProvider = bindingProvider;
+        }
+
+        public void SetExpression(Expr expression, IReadOnlyList<BindingBase> bindings)
+        {
+            _expression = expression;
+            _bindingProvider.SetBindings(bindings);
         }
 
         #region Implementation of IMultiValueConverter
@@ -18,7 +34,10 @@ namespace ScriptBinding.Internals
         {
             // Executes expression with values
 
-            throw new NotImplementedException();
+            _bindingProvider.SetValues(values);
+
+            var value = _executor.Execute(_expression);
+            return value;
         }
 
         /// <inheritdoc />

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -7,21 +6,24 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 using ScriptBinding.Internals;
+using ScriptBinding.Internals.Compiler;
+using ScriptBinding.Internals.Executor.ErrorListeners;
+using ScriptBinding.Internals.Parser;
+using ScriptBinding.Internals.Parser.ErrorListeners;
 
-namespace ScriptBinding
+// ReSharper disable once CheckNamespace
+namespace ScriptBinding.Tools
 {
     [ContentProperty("Bindings")]
     public sealed class ScriptBinding : MarkupExtension, IAddChild
     {
         private readonly MultiBinding _decoratedBinding;
         private readonly ScriptConverter _scriptConverter;
-        private readonly ExpressionBuilder _builder;
         private string _expression;
-        
+
         public ScriptBinding()
         {
-            _builder = new ExpressionBuilder();
-            _scriptConverter = new ScriptConverter();
+            _scriptConverter = new ScriptConverter(new DebugExecutingErrorListener());
 
             _decoratedBinding = new MultiBinding
             {
@@ -82,7 +84,7 @@ namespace ScriptBinding
                     _expression = value;
                     BuildExpression();
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -231,24 +233,34 @@ namespace ScriptBinding
 
         private void BuildExpression()
         {
-            var holder = Build();
-            
+            var holder = PrepareHolder();
+
             SetExpression(holder);
-            RemoveGeneratedBindings(holder);
+            RemoveGeneratedBindings();
             AppendGeneratedBindings(holder);
         }
 
-        private ExpressionHolder Build()
+        private ExpressionHolder PrepareHolder()
         {
-            return _builder.Build(_expression);
+            var parser = new Parser(new DebugParserErrorListener());
+            var parsedExpression = parser.Parse(_expression);
+
+            var expressionHolder = new ExpressionHolder();
+
+            var compiler = new Compiler(expressionHolder);
+            var compiledExpression = compiler.Compile(parsedExpression);
+
+            expressionHolder.SetExpression(compiledExpression);
+
+            return expressionHolder;
         }
 
         private void SetExpression(ExpressionHolder holder)
         {
-            _scriptConverter.SetExpression(holder);
+            _scriptConverter.SetExpression(holder.Expression, _decoratedBinding.Bindings);
         }
 
-        private void RemoveGeneratedBindings(ExpressionHolder holder)
+        private void RemoveGeneratedBindings()
         {
             foreach (var forceBinding in _decoratedBinding.Bindings.OfType<GeneratedBinding>().ToList())
             {
